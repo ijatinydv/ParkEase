@@ -112,37 +112,30 @@ app.get('/api/v1/health', (req, res) => {
   });
 });
 
-// API Routes will be mounted here
-// Example: app.use('/api/v1/auth', authRoutes);
-// TODO: Import and mount route files
+// ============================================
+// IMPORT ROUTES
+// ============================================
 
-// Import routes (uncomment as you create them)
-// const authRoutes = require('./routes/authRoutes');
-// const userRoutes = require('./routes/userRoutes');
-// const parkingSpotRoutes = require('./routes/parkingSpotRoutes');
-// const bookingRoutes = require('./routes/bookingRoutes');
-// const paymentRoutes = require('./routes/paymentRoutes');
-// const reviewRoutes = require('./routes/reviewRoutes');
-// const searchRoutes = require('./routes/searchRoutes');
-// const uploadRoutes = require('./routes/uploadRoutes');
-// const verificationRoutes = require('./routes/verificationRoutes');
-// const notificationRoutes = require('./routes/notificationRoutes');
+const authRoutes = require('./routes/auth');
+// const userRoutes = require('./routes/user');
+// const parkingSpotRoutes = require('./routes/parkingSpot');
+// const bookingRoutes = require('./routes/booking');
+// const paymentRoutes = require('./routes/payment');
+// const reviewRoutes = require('./routes/review');
 
-// Mount routes
-// app.use('/api/v1/auth', authRoutes);
-// app.use('/api/v1/users', userRoutes);
-// app.use('/api/v1/parking-spots', parkingSpotRoutes);
-// app.use('/api/v1/bookings', bookingRoutes);
-// app.use('/api/v1/payments', paymentRoutes);
-// app.use('/api/v1/reviews', reviewRoutes);
-// app.use('/api/v1/search', searchRoutes);
-// app.use('/api/v1/uploads', uploadRoutes);
-// app.use('/api/v1/verification', verificationRoutes);
-// app.use('/api/v1/notifications', notificationRoutes);
+// ============================================
+// MOUNT ROUTES
+// ============================================
 
-// Special rate limiter for auth routes
-// app.use('/api/v1/auth/login', authLimiter);
-// app.use('/api/v1/auth/register', authLimiter);
+// Authentication routes
+app.use('/api/auth', authRoutes);
+
+// Other routes (uncomment as you create them)
+// app.use('/api/users', userRoutes);
+// app.use('/api/parking-spots', parkingSpotRoutes);
+// app.use('/api/bookings', bookingRoutes);
+// app.use('/api/payments', paymentRoutes);
+// app.use('/api/reviews', reviewRoutes);
 
 // ============================================
 // ERROR HANDLING

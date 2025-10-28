@@ -1,0 +1,100 @@
+# ============================================
+# ROOT GITIGNORE
+# ============================================
+
+# ============================================
+# DEPENDENCIES
+# ============================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ============================================
+# ENVIRONMENT VARIABLES
+# ============================================
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+*.env
+
+# ============================================
+# BUILD OUTPUT
+# ============================================
+dist/
+dist-ssr/
+build/
+*.local
+
+# ============================================
+# LOGS
+# ============================================
+logs/
+*.log
+npm-debug.log*
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# ============================================
+# EDITOR & IDE
+# ============================================
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*.swn
+.DS_Store
+Thumbs.db
+*.sublime-project
+*.sublime-workspace
+
+# ============================================
+# TESTING
+# ============================================
+coverage/
+*.lcov
+.nyc_output/
+.jest/
+
+# ============================================
+# DATABASE
+# ============================================
+*.sqlite
+*.sqlite3
+*.db
+
+# ============================================
+# UPLOADS (if storing locally)
+# ============================================
+uploads/
+public/uploads/
+
+# ============================================
+# MISC
+# ============================================
+.eslintcache
+*.tsbuildinfo
+.cache/
+.temp/
+tmp/
+.env.backup
+
+# ============================================
+# OS FILES
+# ============================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

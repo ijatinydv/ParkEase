@@ -124,8 +124,8 @@ const authRoutes = require('./routes/auth');
 const spotRoutes = require('./routes/spots');
 const bookingRoutes = require('./routes/bookings');
 const paymentRoutes = require('./routes/payments');
+const reviewRoutes = require('./routes/reviews');
 // const userRoutes = require('./routes/user');
-// const reviewRoutes = require('./routes/review');
 
 // ============================================
 // MOUNT ROUTES
@@ -143,9 +143,11 @@ app.use('/api/bookings', bookingRoutes);
 // Payment routes (Razorpay integration)
 app.use('/api/payments', paymentRoutes);
 
+// Review routes
+app.use('/api/reviews', reviewRoutes);
+
 // Other routes (uncomment as you create them)
 // app.use('/api/users', userRoutes);
-// app.use('/api/reviews', reviewRoutes);
 
 // ============================================
 // ERROR HANDLING

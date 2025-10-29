@@ -17,10 +17,53 @@ const spotService = {
   },
 
   /**
-   * Search spots by location
+   * Search spots with comprehensive filters
+   * @param {Object} filters - Filter parameters
+   * @param {number} filters.lat - Latitude
+   * @param {number} filters.lng - Longitude
+   * @param {number} filters.radius - Search radius in km
+   * @param {number} filters.minPrice - Minimum price per hour
+   * @param {number} filters.maxPrice - Maximum price per hour
+   * @param {string} filters.types - Comma-separated spot types
+   * @param {string} filters.amenities - Comma-separated amenities
+   * @param {string} filters.startDate - Start date for availability
+   * @param {string} filters.endDate - End date for availability
+   * @param {string} filters.sortBy - Sort field (price, rating, distance)
+   * @param {string} filters.sortOrder - Sort order (asc, desc)
+   * @param {number} filters.page - Page number
+   * @param {number} filters.limit - Results per page
+   * @returns {Promise} Spots data with pagination
    */
-  searchSpots: async (lat, lng, radius = 5) => {
-    return await apiService.get(`/spots/search?lat=${lat}&lng=${lng}&radius=${radius}`);
+  searchSpots: async (filters = {}) => {
+    const params = new URLSearchParams();
+    
+    // Add all filter parameters
+    Object.keys(filters).forEach(key => {
+      if (filters[key] !== null && filters[key] !== undefined && filters[key] !== '') {
+        params.append(key, filters[key]);
+      }
+    });
+
+    return await apiService.get(`/spots/search?${params.toString()}`);
+  },
+
+  /**
+   * Get nearby parking spots
+   * @param {number} lat - Latitude
+   * @param {number} lng - Longitude
+   * @param {number} radius - Search radius in km (default: 5)
+   * @param {Object} additionalFilters - Additional filter options
+   * @returns {Promise} Nearby spots
+   */
+  getNearbySpots: async (lat, lng, radius = 5, additionalFilters = {}) => {
+    const params = new URLSearchParams({
+      lat,
+      lng,
+      radius,
+      ...additionalFilters
+    });
+
+    return await apiService.get(`/spots/nearby?${params.toString()}`);
   },
 
   /**

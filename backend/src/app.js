@@ -117,8 +117,8 @@ app.get('/api/v1/health', (req, res) => {
 // ============================================
 
 const authRoutes = require('./routes/auth');
+const spotRoutes = require('./routes/spots');
 // const userRoutes = require('./routes/user');
-// const parkingSpotRoutes = require('./routes/parkingSpot');
 // const bookingRoutes = require('./routes/booking');
 // const paymentRoutes = require('./routes/payment');
 // const reviewRoutes = require('./routes/review');
@@ -130,9 +130,11 @@ const authRoutes = require('./routes/auth');
 // Authentication routes
 app.use('/api/auth', authRoutes);
 
+// Parking spots routes
+app.use('/api/spots', spotRoutes);
+
 // Other routes (uncomment as you create them)
 // app.use('/api/users', userRoutes);
-// app.use('/api/parking-spots', parkingSpotRoutes);
 // app.use('/api/bookings', bookingRoutes);
 // app.use('/api/payments', paymentRoutes);
 // app.use('/api/reviews', reviewRoutes);

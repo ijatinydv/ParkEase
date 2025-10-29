@@ -70,6 +70,10 @@ app.use('/api/', generalLimiter);
 // BODY PARSING MIDDLEWARE
 // ============================================
 
+// Special handling for Razorpay webhook - must receive raw body for signature verification
+// This must come BEFORE the JSON parser
+app.use('/api/payments/webhook', express.raw({ type: 'application/json' }));
+
 // Parse JSON bodies
 app.use(express.json({ limit: '10mb' }));
 
@@ -119,8 +123,8 @@ app.get('/api/v1/health', (req, res) => {
 const authRoutes = require('./routes/auth');
 const spotRoutes = require('./routes/spots');
 const bookingRoutes = require('./routes/bookings');
+const paymentRoutes = require('./routes/payments');
 // const userRoutes = require('./routes/user');
-// const paymentRoutes = require('./routes/payment');
 // const reviewRoutes = require('./routes/review');
 
 // ============================================
@@ -136,9 +140,11 @@ app.use('/api/spots', spotRoutes);
 // Booking routes
 app.use('/api/bookings', bookingRoutes);
 
+// Payment routes (Razorpay integration)
+app.use('/api/payments', paymentRoutes);
+
 // Other routes (uncomment as you create them)
 // app.use('/api/users', userRoutes);
-// app.use('/api/payments', paymentRoutes);
 // app.use('/api/reviews', reviewRoutes);
 
 // ============================================

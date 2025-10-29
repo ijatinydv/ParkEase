@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { API_BASE_URL, API_TIMEOUT } from '@utils/constants';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API_TIMEOUT = parseInt(import.meta.env.VITE_API_TIMEOUT) || 30000;
 
 /**
- * Axios instance for API calls
- * Pre-configured with base URL, timeout, and interceptors
+ * Axios instance with base configuration
  */
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -14,120 +15,77 @@ const api = axios.create({
 });
 
 /**
- * Request Interceptor
- * Adds authentication token to all requests
+ * Request interceptor - Add auth token
  */
 api.interceptors.request.use(
   (config) => {
-    // Get token from localStorage
     const token = localStorage.getItem('token');
-
-    // Add token to headers if it exists
+    
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
 
+    if (config.data instanceof FormData) {
+      delete config.headers['Content-Type'];
+    }
+
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 /**
- * Response Interceptor
- * Handles common response scenarios and errors
+ * Response interceptor - Handle errors
  */
 api.interceptors.response.use(
-  (response) => {
-    // Return the data directly
-    return response.data;
-  },
+  (response) => response.data,
   (error) => {
-    // Handle different error scenarios
     if (error.response) {
-      // Server responded with error status
       const { status, data } = error.response;
 
-      switch (status) {
-        case 401:
-          // Unauthorized - clear token and redirect to login
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          window.location.href = '/login';
-          break;
-
-        case 403:
-          // Forbidden - show error
-          console.error('Access forbidden:', data.message);
-          break;
-
-        case 404:
-          // Not found
-          console.error('Resource not found:', data.message);
-          break;
-
-        case 500:
-          // Server error
-          console.error('Server error:', data.message);
-          break;
-
-        default:
-          console.error('API Error:', data.message);
+      if (status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = '/login';
       }
 
       return Promise.reject(data);
     } else if (error.request) {
-      // Request made but no response received
-      console.error('Network error:', error.message);
       return Promise.reject({
-        message: 'Network error. Please check your internet connection.',
+        message: 'Network error. Please check your connection.',
       });
-    } else {
-      // Something else happened
-      console.error('Error:', error.message);
-      return Promise.reject({ message: error.message });
     }
+
+    return Promise.reject({ message: error.message });
   }
 );
 
 /**
- * API Helper Functions
+ * API service methods
  */
-
-// GET request
-export const get = (url, config = {}) => {
-  return api.get(url, config);
+const apiService = {
+  get: (url, config = {}) => api.get(url, config),
+  post: (url, data = {}, config = {}) => api.post(url, data, config),
+  put: (url, data = {}, config = {}) => api.put(url, data, config),
+  patch: (url, data = {}, config = {}) => api.patch(url, data, config),
+  delete: (url, config = {}) => api.delete(url, config),
+  
+  /**
+   * Upload file with progress
+   */
+  upload: (url, formData, onProgress) => {
+    return api.post(url, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      onUploadProgress: (progressEvent) => {
+        if (onProgress) {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          onProgress(percentCompleted);
+        }
+      },
+    });
+  },
 };
 
-// POST request
-export const post = (url, data = {}, config = {}) => {
-  return api.post(url, data, config);
-};
-
-// PUT request
-export const put = (url, data = {}, config = {}) => {
-  return api.put(url, data, config);
-};
-
-// PATCH request
-export const patch = (url, data = {}, config = {}) => {
-  return api.patch(url, data, config);
-};
-
-// DELETE request
-export const del = (url, config = {}) => {
-  return api.delete(url, config);
-};
-
-// Upload file (multipart/form-data)
-export const upload = (url, formData, onUploadProgress) => {
-  return api.post(url, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-    onUploadProgress,
-  });
-};
-
-export default api;
+export default apiService;

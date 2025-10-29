@@ -1,51 +1,112 @@
-import { get, post, put, del } from './api';
+import apiService from './api';
 
-/**
- * Authentication API Service
- * Handles all authentication-related API calls
- */
+const authService = {
+  /**
+   * Login user with email and password
+   */
+  login: async (email, password) => {
+    const response = await apiService.post('/auth/login', { email, password });
+    
+    if (response.token) {
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('user', JSON.stringify(response.user));
+    }
+    
+    return response;
+  },
 
-// Register new user
-export const register = async (userData) => {
-  return await post('/auth/register', userData);
+  /**
+   * Register new user
+   */
+  register: async (userData) => {
+    const response = await apiService.post('/auth/register', userData);
+    
+    if (response.token) {
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('user', JSON.stringify(response.user));
+    }
+    
+    return response;
+  },
+
+  /**
+   * Logout current user
+   */
+  logout: async () => {
+    try {
+      await apiService.post('/auth/logout');
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    }
+  },
+
+  /**
+   * Get current authenticated user
+   */
+  getCurrentUser: async () => {
+    const response = await apiService.get('/auth/me');
+    
+    if (response.user) {
+      localStorage.setItem('user', JSON.stringify(response.user));
+    }
+    
+    return response.user;
+  },
+
+  /**
+   * Update user profile
+   */
+  updateProfile: async (updateData) => {
+    const response = await apiService.put('/auth/profile', updateData);
+    
+    if (response.user) {
+      localStorage.setItem('user', JSON.stringify(response.user));
+    }
+    
+    return response.user;
+  },
+
+  /**
+   * Change password
+   */
+  changePassword: async (currentPassword, newPassword) => {
+    return await apiService.put('/auth/change-password', {
+      currentPassword,
+      newPassword,
+    });
+  },
+
+  /**
+   * Forgot password
+   */
+  forgotPassword: async (email) => {
+    return await apiService.post('/auth/forgot-password', { email });
+  },
+
+  /**
+   * Reset password
+   */
+  resetPassword: async (token, newPassword) => {
+    return await apiService.post('/auth/reset-password', { token, newPassword });
+  },
+
+  /**
+   * Get stored user
+   */
+  getStoredUser: () => {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  },
+
+  /**
+   * Check if authenticated
+   */
+  isAuthenticated: () => {
+    return !!localStorage.getItem('token');
+  },
 };
 
-// Login user
-export const login = async (credentials) => {
-  return await post('/auth/login', credentials);
-};
-
-// Logout user
-export const logout = async () => {
-  return await post('/auth/logout');
-};
-
-// Get current user
-export const getCurrentUser = async () => {
-  return await get('/auth/me');
-};
-
-// Forgot password
-export const forgotPassword = async (email) => {
-  return await post('/auth/forgot-password', { email });
-};
-
-// Reset password
-export const resetPassword = async (token, password) => {
-  return await put(`/auth/reset-password/${token}`, { password });
-};
-
-// Update password
-export const updatePassword = async (currentPassword, newPassword) => {
-  return await put('/auth/update-password', { currentPassword, newPassword });
-};
-
-export default {
-  register,
-  login,
-  logout,
-  getCurrentUser,
-  forgotPassword,
-  resetPassword,
-  updatePassword,
-};
+export default authService;

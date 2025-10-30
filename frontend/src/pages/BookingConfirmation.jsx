@@ -9,7 +9,7 @@ import {
   ShareIcon,
   ArrowDownTrayIcon,
 } from '@heroicons/react/24/solid';
-import QRCode from 'qrcode.react';
+import { QRCodeSVG } from 'qrcode.react';
 import bookingService from '@services/bookingService';
 import Button from '@components/common/Button';
 import Card from '@components/common/Card';
@@ -248,7 +248,7 @@ const BookingConfirmation = () => {
               </p>
               
               <div className="inline-block p-6 bg-white rounded-lg border-2 border-neutral-200">
-                <QRCode
+                <QRCodeSVG
                   id="qr-code"
                   value={JSON.stringify({
                     bookingId: displayBookingId || bookingId,

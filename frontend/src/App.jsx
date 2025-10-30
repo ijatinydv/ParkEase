@@ -2,6 +2,17 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from '@context/AuthContext';
 
+// Page imports
+import Dashboard from '@pages/Dashboard';
+import MyBookings from '@pages/MyBookings';
+import MyListings from '@pages/MyListings';
+import AddListing from '@pages/AddListing';
+import Login from '@pages/Login';
+import Register from '@pages/Register';
+import Search from '@pages/Search';
+import SpotDetails from '@pages/SpotDetails';
+import BookingConfirmation from '@pages/BookingConfirmation';
+
 /**
  * Protected Route Component
  */
@@ -44,8 +55,8 @@ const AppRoutes = () => {
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={<HomePage />} />
-      <Route path="/search" element={<SearchPage />} />
-      <Route path="/spots/:id" element={<SpotDetailsPage />} />
+      <Route path="/search" element={<Search />} />
+      <Route path="/spots/:id" element={<SpotDetails />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/contact" element={<ContactPage />} />
 
@@ -54,7 +65,7 @@ const AppRoutes = () => {
         path="/login"
         element={
           <PublicRoute>
-            <LoginPage />
+            <Login />
           </PublicRoute>
         }
       />
@@ -62,7 +73,7 @@ const AppRoutes = () => {
         path="/register"
         element={
           <PublicRoute>
-            <RegisterPage />
+            <Register />
           </PublicRoute>
         }
       />
@@ -74,7 +85,7 @@ const AppRoutes = () => {
         path="/dashboard"
         element={
           <ProtectedRoute>
-            <DashboardPage />
+            <Dashboard />
           </ProtectedRoute>
         }
       />
@@ -90,7 +101,7 @@ const AppRoutes = () => {
         path="/bookings"
         element={
           <ProtectedRoute>
-            <BookingsPage />
+            <MyBookings />
           </ProtectedRoute>
         }
       />
@@ -102,13 +113,21 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/booking-confirmation/:bookingId"
+        element={
+          <ProtectedRoute>
+            <BookingConfirmation />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Provider Routes */}
       <Route
         path="/my-spots"
         element={
           <ProtectedRoute>
-            <MySpotsPage />
+            <MyListings />
           </ProtectedRoute>
         }
       />
@@ -116,7 +135,7 @@ const AppRoutes = () => {
         path="/my-spots/new"
         element={
           <ProtectedRoute>
-            <CreateSpotPage />
+            <AddListing />
           </ProtectedRoute>
         }
       />
@@ -171,20 +190,12 @@ const HomePage = () => (
   </div>
 );
 
-const SearchPage = () => <div className="p-8">Search Page</div>;
-const SpotDetailsPage = () => <div className="p-8">Spot Details Page</div>;
 const AboutPage = () => <div className="p-8">About Page</div>;
 const ContactPage = () => <div className="p-8">Contact Page</div>;
-const LoginPage = () => <div className="p-8">Login Page</div>;
-const RegisterPage = () => <div className="p-8">Register Page</div>;
 const ForgotPasswordPage = () => <div className="p-8">Forgot Password Page</div>;
 const ResetPasswordPage = () => <div className="p-8">Reset Password Page</div>;
-const DashboardPage = () => <div className="p-8">Dashboard Page</div>;
 const ProfilePage = () => <div className="p-8">Profile Page</div>;
-const BookingsPage = () => <div className="p-8">Bookings Page</div>;
 const BookingDetailsPage = () => <div className="p-8">Booking Details Page</div>;
-const MySpotsPage = () => <div className="p-8">My Spots Page</div>;
-const CreateSpotPage = () => <div className="p-8">Create Spot Page</div>;
 const EditSpotPage = () => <div className="p-8">Edit Spot Page</div>;
 const PaymentPage = () => <div className="p-8">Payment Page</div>;
 const PaymentSuccessPage = () => <div className="p-8">Payment Success Page</div>;

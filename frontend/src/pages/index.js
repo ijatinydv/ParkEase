@@ -1,3 +1,6 @@
+// Public Pages
+export { default as Home } from './Home';
+
 // Dashboard Pages
 export { default as Dashboard } from './Dashboard';
 export { default as MyBookings } from './MyBookings';

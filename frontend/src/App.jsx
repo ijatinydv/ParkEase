@@ -3,15 +3,18 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from '@context/AuthContext';
 
 // Page imports
-import Dashboard from '@pages/Dashboard';
-import MyBookings from '@pages/MyBookings';
-import MyListings from '@pages/MyListings';
-import AddListing from '@pages/AddListing';
-import Login from '@pages/Login';
-import Register from '@pages/Register';
-import Search from '@pages/Search';
-import SpotDetails from '@pages/SpotDetails';
-import BookingConfirmation from '@pages/BookingConfirmation';
+import { 
+  Home,
+  Dashboard,
+  MyBookings,
+  MyListings,
+  AddListing,
+  Login,
+  Register,
+  Search,
+  SpotDetails,
+  BookingConfirmation,
+} from '@pages/index';
 
 /**
  * Protected Route Component
@@ -54,7 +57,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<Home />} />
       <Route path="/search" element={<Search />} />
       <Route path="/spots/:id" element={<SpotDetails />} />
       <Route path="/about" element={<AboutPage />} />
@@ -183,13 +186,6 @@ const AppRoutes = () => {
 /**
  * Placeholder Pages (to be implemented)
  */
-const HomePage = () => (
-  <div className="p-8 text-center">
-    <h1 className="text-4xl font-bold text-primary-600 mb-4">Welcome to ParkEase</h1>
-    <p className="text-neutral-600">Your P2P Parking Marketplace</p>
-  </div>
-);
-
 const AboutPage = () => <div className="p-8">About Page</div>;
 const ContactPage = () => <div className="p-8">Contact Page</div>;
 const ForgotPasswordPage = () => <div className="p-8">Forgot Password Page</div>;

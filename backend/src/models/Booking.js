@@ -15,6 +15,32 @@ const checkInOutSchema = new mongoose.Schema(
       type: String,
       trim: true,
       maxlength: [500, 'Notes cannot exceed 500 characters']
+    },
+    verified: {
+      type: Boolean,
+      default: false
+    },
+    verificationDetails: {
+      confidence: {
+        type: Number,
+        min: 0,
+        max: 1
+      },
+      label: {
+        type: String
+      },
+      verifiedAt: {
+        type: Date
+      },
+      attemptNumber: {
+        type: Number,
+        default: 1
+      }
+    },
+    location: {
+      lat: Number,
+      lng: Number,
+      accuracy: Number
     }
   },
   { _id: false }

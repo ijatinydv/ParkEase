@@ -125,6 +125,7 @@ const spotRoutes = require('./routes/spots');
 const bookingRoutes = require('./routes/bookings');
 const paymentRoutes = require('./routes/payments');
 const reviewRoutes = require('./routes/reviews');
+const verificationRoutes = require('./routes/verification');
 // const userRoutes = require('./routes/user');
 
 // ============================================
@@ -139,6 +140,9 @@ app.use('/api/spots', spotRoutes);
 
 // Booking routes
 app.use('/api/bookings', bookingRoutes);
+
+// Verification routes (AI photo verification)
+app.use('/api/bookings', verificationRoutes);
 
 // Payment routes (Razorpay integration)
 app.use('/api/payments', paymentRoutes);
